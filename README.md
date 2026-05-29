@@ -57,9 +57,13 @@ Trabajas en el sistema de una pizzería universitaria:
 
 ## ❓ Preguntas de Comprensión (Obligatorias en el PR)
 1. ¿Por qué un sistema de delivery usa `Queue` para los pedidos pero `Stack` para la bitácora? ¿Qué problema surgiría si invertimos las estructuras?
-2. ¿Por qué es obligatorio verificar `Count == 0` antes de `Dequeue()` o `Pop()`? ¿Qué ocurre en ejecución si se omite?
-3. En el método `Deshacer`, ¿por qué es necesario analizar el texto con `.StartsWith()` antes de revertir? ¿Qué error lógico evitaría esto?
-4. ¿Qué ventaja tiene entregar mediante Fork + Pull Request en lugar de un archivo comprimido? ¿Cómo facilita la la retroalimentación?
+2. respuesta:Invertir las estructuras rompe el negocio y el soporte: el cliente que pidió primero moriría de hambre en el fondo de un Stack, y el programador tardaría horas leyendo logs viejos en una Queue antes de encontrar el error actual.
+3. ¿Por qué es obligatorio verificar `Count == 0` antes de `Dequeue()` o `Pop()`? ¿Qué ocurre en ejecución si se omite?
+4.respuesta Porque ambos métodos intentan extraer y eliminar un elemento de la estructura. Si la estructura no tiene elementos, la operación es lógicamente imposiblesi se ommirte El programa sufre un error crítico en tiempo de ejecución: se lanza una excepción y la aplicación se cuelga (crash).
+5. En el método `Deshacer`, ¿por qué es necesario analizar el texto con `.StartsWith()` antes de revertir? ¿Qué error lógico evitaría esto?
+6. Es necesario para validar el contexto de la acción antes de revertirla. Permite verificar que el comando o texto guardado en la cima de la Pila de Deshacer coincide exactamente con la operación que se intenta revertir (por ejemplo, comprobar si un string empieza con "INSERT:" o "DELETE:").Si se omite este análisis y la pila contiene un dato inesperado, corrupto o de otra vista del sistema, el método aplicaría la lógica inversa a ciegas (por ejemplo, borrar texto cuando se debía insertar), rompiendo la consistencia de los datos de la aplicación.
+7. ¿Qué ventaja tiene entregar mediante Fork + Pull Request en lugar de un archivo comprimido? ¿Cómo facilita la la retroalimentación?
+8. Entregar con Fork + PR mantiene el historial de Git y evita la acumulación de archivos .zip obsoletos. Facilita la retroalimentación al permitir comentarios directos sobre líneas de código específicas y actualizaciones automáticas mediante nuevos commits en el mismo hilo de revisión.
 
 ## ✅ Checklist de Entrega
 - [ ] Código compila en SharpDevelop sin warnings críticos
